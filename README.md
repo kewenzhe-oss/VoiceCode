@@ -2,6 +2,7 @@
 
 **Voice-to-Code Assistant for macOS.**  
 Turn your voice into code instantly with global hotkeys and AI-powered transcription. Designed for developers who want to speed up their workflow or code hands-free.
+![voicecode_app_icon_1770059366514](https://github.com/user-attachments/assets/29b48795-0065-4f84-884b-c10c609cd7e7)
 
 ## ✨ Features
 
