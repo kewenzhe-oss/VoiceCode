@@ -3,8 +3,6 @@
 **Voice-to-Code Assistant for macOS.**  
 Turn your voice into code instantly with global hotkeys and AI-powered transcription. Designed for developers who want to speed up their workflow or code hands-free.
 
-![App Icon](docs/app_icon.png)
-
 ## ✨ Features
 
 *   **Global Hotkey**: Press **Option + Space** anywhere to start listening.
