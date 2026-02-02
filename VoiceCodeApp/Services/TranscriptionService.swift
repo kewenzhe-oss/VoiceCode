@@ -11,14 +11,24 @@ class TranscriptionService {
     
     // User preferences
     var preferredLanguage: String? = nil  // nil = auto-detect
-    var modelSize: WhisperModelSize = .large
+    var modelSize: WhisperModelSize = .base // Changed from .large for faster startup (~150MB)
     
     // MARK: - Initialization
+    
+    /// Unload the model to free memory
+    func unload() {
+        whisperKit = nil
+        isInitialized = false
+        print("🗑️ WhisperKit model unloaded")
+    }
     
     /// Initialize the WhisperKit model
     /// - Parameter progressCallback: Called with download/load progress (0.0 to 1.0)
     func initialize(progressCallback: @escaping (Double) -> Void) async throws {
-        guard !isInitialized else { return }
+        guard !isInitialized else { 
+            progressCallback(1.0)
+            return 
+        }
         
         let modelName = modelSize.modelName
         
@@ -48,6 +58,10 @@ class TranscriptionService {
         guard let whisperKit = whisperKit, isInitialized else {
             throw TranscriptionError.notInitialized
         }
+        
+        // Prevent App Nap / Throttling during transcription
+        let activity = ProcessInfo.processInfo.beginActivity(options: .userInitiated, reason: "VoiceCode Transcription")
+        defer { ProcessInfo.processInfo.endActivity(activity) }
         
         do {
             // Configure transcription options

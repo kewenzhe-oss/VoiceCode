@@ -31,6 +31,9 @@ class AudioRecorder: NSObject {
     /// Start recording audio
     /// - Throws: RecordingError if recording cannot be started
     func startRecording() throws {
+        // Ensure directory exists (macOS might clean tmp)
+        setupRecordingDirectory()
+        
         // Generate unique filename
         let filename = "voicecode_\(Date().timeIntervalSince1970).wav"
         let recordingURL = getRecordingDirectory().appendingPathComponent(filename)
@@ -39,7 +42,7 @@ class AudioRecorder: NSObject {
         do {
             audioRecorder = try AVAudioRecorder(url: recordingURL, settings: recordingSettings)
             audioRecorder?.delegate = self
-            audioRecorder?.isMeteringEnabled = true
+            audioRecorder?.isMeteringEnabled = false // Disable metering to save resources (UI uses simulated waves)
             
             if audioRecorder?.prepareToRecord() == true {
                 audioRecorder?.record()
@@ -65,6 +68,15 @@ class AudioRecorder: NSObject {
         
         let url = currentRecordingURL
         audioRecorder = nil
+        
+        // Verify file size (ignore empty/silent recordings < 1KB)
+        if let attr = try? FileManager.default.attributesOfItem(atPath: url?.path ?? ""),
+           let size = attr[.size] as? UInt64,
+           size < 1024 {
+            print("⚠️ Audio file too small (\(size) bytes) - Discarding")
+            return nil
+        }
+        
         return url
     }
     

@@ -14,6 +14,7 @@ class IndicatorWindow: NSPanel {
         self.level = .floating
         self.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
         self.backgroundColor = .clear
+        self.isOpaque = false
         self.hasShadow = false
         self.contentView = NSHostingView(rootView: DesktopIndicatorView(state: TranscriptionState.shared))
         

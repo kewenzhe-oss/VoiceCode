@@ -22,19 +22,58 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         checkPermissions()
         setupServices()
         
-        // Settings Notification
+        // Notifications
         NotificationCenter.default.addObserver(self, selector: #selector(openSettings), name: Notification.Name("OpenSettings"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleModeChange), name: Notification.Name("TranscriptionModeChanged"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleModelChange), name: Notification.Name("ModelSizeChanged"), object: nil)
         
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { _, _ in }
         
-        // Load model if in local mode
+        // Load model ONLY if starting in local mode
         if transcriptionState.transcriptionMode == .local {
+            // Apply saved model size first
+            transcriptionService?.modelSize = transcriptionState.modelSize
+            
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 Task { await self.initializeWhisperModel() }
             }
         }
         
         print("✅ VoiceCode ready")
+    }
+    
+    @objc private func handleModeChange() {
+        Task { @MainActor in
+            switch transcriptionState.transcriptionMode {
+            case .local:
+                print("🔄 Switched to Local - Loading Model")
+                if !transcriptionState.isModelReady {
+                    await initializeWhisperModel()
+                }
+            case .openai, .huggingface:
+                print("🔄 Switched to Cloud - Unloading Model")
+                transcriptionService?.unload()
+                transcriptionState.isModelReady = false
+            }
+        }
+    }
+    
+    @objc private func handleModelChange() {
+        guard transcriptionState.transcriptionMode == .local else { return }
+        
+        print("🔄 Model size changed to \(transcriptionState.modelSize.displayName) - Reloading...")
+        
+        Task { @MainActor in
+            // Unload current
+            transcriptionService?.unload()
+            transcriptionState.isModelReady = false
+            
+            // Update service preference
+            transcriptionService?.modelSize = transcriptionState.modelSize
+            
+            // Reload
+            await initializeWhisperModel()
+        }
     }
     
     private func setupServices() {

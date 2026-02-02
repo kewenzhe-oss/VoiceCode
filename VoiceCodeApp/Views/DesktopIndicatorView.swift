@@ -56,14 +56,7 @@ struct DesktopIndicatorView: View {
             Capsule()
                 .stroke(Color.white.opacity(0.1), lineWidth: 1) // Apple-style border
         )
-        .background {
-            // Activity Glow (Subtle)
-            if state.isRecording {
-                Capsule().fill(Color.red.opacity(0.2)).blur(radius: 20)
-            } else if state.isTranscribing {
-                Capsule().fill(Color.blue.opacity(0.2)).blur(radius: 20)
-            }
-        }
+        // Removed Activity Glow ("fur") as per user request
         .opacity((state.isRecording || state.isTranscribing) ? 1 : 0)
         .scaleEffect((state.isRecording || state.isTranscribing) ? 1 : 0.8)
         .animation(.spring(response: 0.35, dampingFraction: 0.7), value: state.isRecording)

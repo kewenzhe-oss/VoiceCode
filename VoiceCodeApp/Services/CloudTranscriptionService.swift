@@ -28,37 +28,46 @@ enum TranscriptionMode: String, CaseIterable, Identifiable {
 /// Cloud-based transcription service supporting multiple providers
 class CloudTranscriptionService {
     
-    // MARK: - Properties
-    private var openaiAPIKey: String?
-    private var huggingfaceAPIKey: String?
+    // MARK: - Properties (Computed from UserDefaults)
+    
+    private var openaiAPIKey: String? {
+        get { UserDefaults.standard.string(forKey: "openai_api_key") }
+    }
+    
+    private var huggingfaceAPIKey: String? {
+        get { UserDefaults.standard.string(forKey: "huggingface_api_key") }
+    }
     
     private let openaiURL = "https://api.openai.com/v1/audio/transcriptions"
     private let huggingfaceURL = "https://api-inference.huggingface.co/models/openai/whisper-large-v3"
     
     var isOpenAIConfigured: Bool {
-        return openaiAPIKey != nil && !openaiAPIKey!.isEmpty
+        guard let key = openaiAPIKey else { return false }
+        return !key.isEmpty
     }
     
     var isHuggingFaceConfigured: Bool {
-        return huggingfaceAPIKey != nil && !huggingfaceAPIKey!.isEmpty
+        guard let key = huggingfaceAPIKey else { return false }
+        return !key.isEmpty
     }
     
     // MARK: - Initialization
     
     init() {
-        loadAPIKeys()
+        // No local loading needed, computed properties handle it
     }
     
     // MARK: - API Key Management
     
     func setOpenAIKey(_ key: String) {
-        self.openaiAPIKey = key
         UserDefaults.standard.set(key, forKey: "openai_api_key")
+        // Force sync just in case
+        UserDefaults.standard.synchronize()
     }
     
     func setHuggingFaceKey(_ key: String) {
-        self.huggingfaceAPIKey = key
         UserDefaults.standard.set(key, forKey: "huggingface_api_key")
+        UserDefaults.standard.synchronize()
     }
     
     func getMaskedOpenAIKey() -> String? {
@@ -71,14 +80,9 @@ class CloudTranscriptionService {
         return "\(key.prefix(4))...\(key.suffix(4))"
     }
     
-    private func loadAPIKeys() {
-        openaiAPIKey = UserDefaults.standard.string(forKey: "openai_api_key")
-        huggingfaceAPIKey = UserDefaults.standard.string(forKey: "huggingface_api_key")
-    }
+    // No loadAPIKeys needed
     
     func clearKeys() {
-        openaiAPIKey = nil
-        huggingfaceAPIKey = nil
         UserDefaults.standard.removeObject(forKey: "openai_api_key")
         UserDefaults.standard.removeObject(forKey: "huggingface_api_key")
     }

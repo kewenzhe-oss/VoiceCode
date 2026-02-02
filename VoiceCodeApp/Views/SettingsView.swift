@@ -45,6 +45,19 @@ struct SettingsView: View {
                     .foregroundColor(.secondary)
             }
             
+            if state.transcriptionMode == .local {
+                Section("Local Model Size") {
+                    Picker("Model", selection: $state.modelSize) {
+                        ForEach(WhisperModelSize.allCases) { size in
+                            Text(size.displayName).tag(size)
+                        }
+                    }
+                    Text("Larger models are more accurate but slower to load.")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+            }
+            
             Section("Language") {
                 Picker("Preferred", selection: $preferredLanguage) {
                     Text("Auto-detect").tag("auto")

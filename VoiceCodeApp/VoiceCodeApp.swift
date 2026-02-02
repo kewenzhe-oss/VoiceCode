@@ -17,6 +17,14 @@ class TranscriptionState: ObservableObject {
     @Published var transcriptionMode: TranscriptionMode {
         didSet {
             UserDefaults.standard.set(transcriptionMode.rawValue, forKey: "transcription_mode")
+            NotificationCenter.default.post(name: Notification.Name("TranscriptionModeChanged"), object: nil)
+        }
+    }
+    
+    @Published var modelSize: WhisperModelSize {
+        didSet {
+            UserDefaults.standard.set(modelSize.rawValue, forKey: "model_size")
+            NotificationCenter.default.post(name: Notification.Name("ModelSizeChanged"), object: nil)
         }
     }
     
@@ -24,6 +32,9 @@ class TranscriptionState: ObservableObject {
         // Load saved mode or default to local
         let savedMode = UserDefaults.standard.string(forKey: "transcription_mode") ?? "local"
         self.transcriptionMode = TranscriptionMode(rawValue: savedMode) ?? .local
+        
+        let savedSize = UserDefaults.standard.string(forKey: "model_size") ?? "base"
+        self.modelSize = WhisperModelSize(rawValue: savedSize) ?? .base
     }
     
     func addTranscription(_ text: String) {
