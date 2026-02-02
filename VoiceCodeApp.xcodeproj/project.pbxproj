@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		A9350F132F306E680068D541 /* WhisperKit in Frameworks */ = {isa = PBXBuildFile; productRef = A9350F122F306E680068D541 /* WhisperKit */; };
+		A9350F162F306E830068D541 /* HotKey in Frameworks */ = {isa = PBXBuildFile; productRef = A9350F152F306E830068D541 /* HotKey */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		A9350EEA2F306A010068D541 /* VoiceCodeApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VoiceCodeApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +28,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9350F162F306E830068D541 /* HotKey in Frameworks */,
+				A9350F132F306E680068D541 /* WhisperKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +72,8 @@
 			);
 			name = VoiceCodeApp;
 			packageProductDependencies = (
+				A9350F122F306E680068D541 /* WhisperKit */,
+				A9350F152F306E830068D541 /* HotKey */,
 			);
 			productName = VoiceCodeApp;
 			productReference = A9350EEA2F306A010068D541 /* VoiceCodeApp.app */;
@@ -94,6 +103,10 @@
 			);
 			mainGroup = A9350EE12F306A010068D541;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				A9350F112F306E680068D541 /* XCRemoteSwiftPackageReference "WhisperKit" */,
+				A9350F142F306E830068D541 /* XCRemoteSwiftPackageReference "HotKey" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = A9350EEB2F306A010068D541 /* Products */;
 			projectDirPath = "";
@@ -251,11 +264,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				ENABLE_APP_SANDBOX = YES;
+				ENABLE_APP_SANDBOX = NO;
 				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "VoiceCode needs microphone access to record your voice for transcription.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -281,11 +294,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				ENABLE_APP_SANDBOX = YES;
+				ENABLE_APP_SANDBOX = NO;
 				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "VoiceCode needs microphone access to record your voice for transcription.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -325,6 +338,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A9350F112F306E680068D541 /* XCRemoteSwiftPackageReference "WhisperKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/argmaxinc/WhisperKit.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		A9350F142F306E830068D541 /* XCRemoteSwiftPackageReference "HotKey" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/soffes/HotKey.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A9350F122F306E680068D541 /* WhisperKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A9350F112F306E680068D541 /* XCRemoteSwiftPackageReference "WhisperKit" */;
+			productName = WhisperKit;
+		};
+		A9350F152F306E830068D541 /* HotKey */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A9350F142F306E830068D541 /* XCRemoteSwiftPackageReference "HotKey" */;
+			productName = HotKey;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A9350EE22F306A010068D541 /* Project object */;
 }

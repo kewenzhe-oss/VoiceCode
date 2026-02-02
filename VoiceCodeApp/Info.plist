@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleName</key>
+    <string>VoiceCode</string>
+    
+    <key>CFBundleDisplayName</key>
+    <string>VoiceCode</string>
+    
+    <key>CFBundleIdentifier</key>
+    <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+    
+    <key>CFBundleVersion</key>
+    <string>1</string>
+    
+    <key>CFBundleShortVersionString</key>
+    <string>1.0.0</string>
+    
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    
+    <key>LSMinimumSystemVersion</key>
+    <string>14.0</string>
+    
+    <key>LSUIElement</key>
+    <true/>
+    
+    <!-- Privacy Usage Descriptions -->
+    <key>NSMicrophoneUsageDescription</key>
+    <string>VoiceCode needs microphone access to record your voice for transcription.</string>
+    
+    <!-- Accessibility might be used for advanced hotkey features -->
+    <key>NSAppleEventsUsageDescription</key>
+    <string>VoiceCode may use automation to paste text into other applications.</string>
+    
+    <!-- Background operation -->
+    <key>LSBackgroundOnly</key>
+    <false/>
+    
+    <!-- Application supports secure coding -->
+    <key>NSSupportsSecureCoding</key>
+    <true/>
+</dict>
+</plist>
